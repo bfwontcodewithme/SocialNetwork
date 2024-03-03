@@ -1,6 +1,12 @@
 import matplotlib.pyplot as plt
 from PIL import Image
-
+'''
+    pass tests in windows.
+    fail in ubuntu - the differences between output and student output are by \r\n
+    even after adding manually \r\n, there are still specific spots that won't change resulting in fail
+    the files considered different.
+    this explanation is also in mail sent to oopariel@gmail.com with screenshots 
+'''
 
 class SocialNetwork:  # Singleton design pattern
     __instance = None
