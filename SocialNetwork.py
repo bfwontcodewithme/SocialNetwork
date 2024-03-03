@@ -12,7 +12,7 @@ class SocialNetwork:  # Singleton design pattern
             self.Name = name
             self.Users = []
             SocialNetwork.__instance = self
-            print(f"The social network {self.Name} was created!")
+            print(f"The social network {self.Name} was created!", end='\r\n\r')
 
     def __str__(self):
         nl = '\n'
@@ -38,23 +38,23 @@ class SocialNetwork:  # Singleton design pattern
         for user in self.Users:
             if user.username == username and user.password == password:
                 if user.online:
-                    print("user already logged in")
+                    print("user already logged in", end='\r\n')
                     return
                 user.online = True
-                print(f"{username} connected")
+                print(f"{username} connected", end='\r\n')
                 return
-        print("wrong username or password")
+        print("wrong username or password", end='\r\n')
 
     def log_out(self, username):
         for user in self.Users:
             if user.username == username:
                 if not user.online:
-                    print("user already logged out")
+                    print("user already logged out", end='\r\n')
                     return
                 user.online = False
-                print(f"{username} disconnected")
+                print(f"{username} disconnected", end='\r\n')
                 return
-        print("user not found")
+        print("user not found", end='\r\n')
 
 
 class User:  # Observer design pattern
@@ -78,7 +78,7 @@ class User:  # Observer design pattern
         if self.online:
             self.following.append(user)
             user.followers.append(self)
-            print(f"{self.username} started following {user.username}")
+            print(f"{self.username} started following {user.username}", end='\r\n')
         else:
             raise Exception("you are not logged in")
 
@@ -86,7 +86,7 @@ class User:  # Observer design pattern
         if self.online:
             user.followers.remove(self)
             self.following.remove(user)
-            print(f"{self.username} unfollowed {user.username}")
+            print(f"{self.username} unfollowed {user.username}", end='\r\n')
         else:
             raise Exception("you are not logged in")
 
@@ -105,7 +105,7 @@ class User:  # Observer design pattern
                 return postFactory.createSalesPost(self, *args)
 
     def print_notifications(self):
-        print(f"{self.username}'s notifications:")
+        print(f"{self.username}'s notifications:", end='\r\n')
         for notif in self.notifications:
             print(notif)
 
@@ -135,17 +135,17 @@ class Post:  # Factory design pattern
 
     def __str__(self):
         if self.postTag == 1:
-            return f'{self.poster.username} published a post:\n'+f'"{self.data}"\n'
+            return f'{self.poster.username} published a post:\r\n'+f'"{self.data}"\r\n'
 
         if self.postTag == 2:
-            return f"{self.poster.username} posted a picture\n"
+            return f"{self.poster.username} posted a picture\r\n"
 
         if self.postTag == 3:
-            first_part = f"{self.poster.username} posted a product for sale:\n"
+            first_part = f"{self.poster.username} posted a product for sale:\r\n"
             if not self.Sold:
-                return first_part + f"For sale! {self.carName}, price: {self.price}, pickup from: {self.location}\n"
+                return first_part + f"For sale! {self.carName}, price: {self.price}, pickup from: {self.location}\r\n"
             else:
-                return first_part + f"Sold! {self.carName}, price: {self.price}, pickup from: {self.location}\n"
+                return first_part + f"Sold! {self.carName}, price: {self.price}, pickup from: {self.location}\r\n"
 
     def like(self, user):
         if self.poster is not user:
@@ -181,12 +181,12 @@ class Post:  # Factory design pattern
     def discount(self, amount, password):
         if self.postTag == 3 and password == self.poster.password:  # and amount >= 0:
             self.price = self.price - (self.price / 100) * amount
-            print(f"Discount on {self.poster.username} product! the new price is: {self.price}")
+            print(f"Discount on {self.poster.username} product! the new price is: {self.price}", end='\r\n')
 
     def sold(self, password):
         if self.postTag == 3 and self.poster.password == password:
             self.Sold = True
-            print(f"{self.poster.username}'s product is sold")
+            print(f"{self.poster.username}'s product is sold", end='\r\n')
 
 
 class Comment:
